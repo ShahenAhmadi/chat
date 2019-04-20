@@ -1,0 +1,5 @@
+package chat.sample.func;
+import "chat.sample.type.proto";
+// messageCode = 101
+message Call {
+}

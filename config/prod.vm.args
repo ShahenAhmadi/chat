@@ -1,0 +1,4 @@
+## Name of the node
+-name chat-prod@chat-prod-ip
+## Cookie for distributed erlang
+-setcookie chat-cookie
