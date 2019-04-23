@@ -3,12 +3,14 @@
 -behaviour(gen_server).
 
 %% API
--export([start_link/0]).
+-export([start/1,
+         stop/1]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3, format_status/2]).
 
+-include("chat.hrl").
 
 -record(state, {}).
 
@@ -16,9 +18,11 @@
 %%% API
 %%%===================================================================
 
-start_link() ->
-    gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
+start(Name) ->
+    gen_server:start({local, Name}, ?MODULE, [], []).
 
+stop(Name) ->
+    gen_server:stop(Name).
 %%%===================================================================
 %%% gen_server callbacks
 %%%===================================================================
@@ -34,6 +38,9 @@ handle_call(_Request, _From, State) ->
 handle_cast(_Request, State) ->
     {noreply, State}.
 
+handle_info({chat_message, Message}, State) ->
+    ?LOG_DEBUG("Receive --> ~p", [Message]),
+    {noreply, State};
 handle_info(_Info, State) ->
     {noreply, State}.
 
